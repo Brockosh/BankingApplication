@@ -14,19 +14,22 @@ public class Bank {
 
 
     public void addCustomer(Human human) {
-        // Add logic to add a customer to the bank
+        HumanDAO humanDAO = new HumanDAO();
+        humanDAO.addHuman(human);
         customers.add(human);
         // Optionally, save the customer to your database
     }
 
     public void createAccountForCustomer(UUID customerId, String accountName, Account.AccountType type, double initialBalance) {
+        AccountDAO AD = new AccountDAO();
         Human human = findCustomerById(customerId);
         if (human != null) {
             int accountNumber = generateUniqueAccountNumber();
             Account newAccount = new Account(accountName, accountNumber, type, initialBalance);
             activeAccounts.add(newAccount);
             human.addAccount(newAccount);
-            // Persist the account in the database
+            AD.addAccount(newAccount, customerId);
+            System.out.println("Created new account" + accountName);
         } else {
             System.out.println("Customer not found.");
         }
@@ -179,5 +182,22 @@ public class Bank {
             accountNumber = 1_000_000 + random.nextInt(99_000_000);
         }
         return accountNumber;
+    }
+
+    public void displayAccountDetails(UUID accountId) {
+        System.out.println("Displaying details for account with ID: " + accountId);
+
+
+        AccountDAO AD = new AccountDAO();
+        Account account = AD.getAccountById(accountId);
+
+        if (account != null) {
+            System.out.println("Account Name: " + account.getAccountName());
+            System.out.println("Account Number: " + account.getAccountNumber());
+            System.out.println("Account Type: " + account.getType());
+            System.out.println("Balance: $" + account.getBalance());
+        } else {
+            System.out.println("Account not found.");
+        }
     }
 }

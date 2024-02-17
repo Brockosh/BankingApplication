@@ -3,16 +3,22 @@
 public class Main {
     public static void main(String[] args) {
 
+        DatabaseConnector dbConn = new DatabaseConnector();
+
+        dbConn.connect();
+
+
+
         Bank bank = new Bank();
 
         Human brock = new Human("Brock O'Shea");
         bank.addCustomer(brock);
+        bank.createAccountForCustomer(brock.getId(), "Brock's Banking", Account.AccountType.SAVINGS, 870);
+        bank.displayAccountDetails(brock.getPersonalAccounts().get(0).getId());
 
-        bank.createAccountForCustomer(brock.getId(), "My Savings", Account.AccountType.SAVINGS, 500.00);
-        bank.createAccountForCustomer(brock.getId(), "My Business", Account.AccountType.BUSINESS, 200.00);
 
-        bank.transfer(brock.getPersonalAccounts().get(0).getId(), brock.getPersonalAccounts().get(1).getId(),350);
+//        HumanDAO hD = new HumanDAO();
+//        hD.deleteAllHumans();
 
-        bank.displayAccountsForCustomer(brock.getId());
     }
 }

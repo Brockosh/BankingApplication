@@ -20,6 +20,14 @@ public class Account {
         this.type = type;
         this.balance = bal;
     }
+    public Account(UUID id, String aName, Integer aNum, AccountType type, double bal)
+    {
+        this.id = id;
+        this.accountName = aName;
+        this.accountNumber = aNum;
+        this.type = type;
+        this.balance = bal;
+    }
 
 
     // Getters and Setters
@@ -39,6 +47,7 @@ public class Account {
     public double getBalance() {
         return balance;
     }
+    public AccountType getType() { return this.type; }
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
