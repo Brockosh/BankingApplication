@@ -14,7 +14,6 @@ public class Human {
         this.fullName = fullName;
         this.personalAccounts = new ArrayList<>();
     }
-
     public void addAccount(Account newAccount) {
 
         personalAccounts.add(newAccount);
@@ -27,15 +26,12 @@ public class Human {
     public String getFullName() {
         return fullName;
     }
-
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-
     public List<Account> getPersonalAccounts() {
         return personalAccounts;
     }
-
 
     public boolean transferMoney(String fromAccountNumber, String toAccountNumber, double amount) {
         Account fromAccount = findAccountByNumber(fromAccountNumber);
@@ -47,8 +43,6 @@ public class Human {
         }
         return false;
     }
-
-
 
     //Utility functions
     private Account findAccountByNumber(String accountNumber) {
