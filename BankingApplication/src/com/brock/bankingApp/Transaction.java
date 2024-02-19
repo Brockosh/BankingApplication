@@ -1,3 +1,5 @@
+package com.brock.bankingApp;
+
 import java.util.Date;
 
 public class Transaction {

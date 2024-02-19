@@ -1,3 +1,5 @@
+package com.brock.bankingApp;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -49,14 +51,14 @@ public class Bank {
         }
 
         for (Account account : customer.getPersonalAccounts()) {
-            System.out.println("Account Name: " + account.getAccountName());
-            System.out.println("Account Number: " + account.getAccountNumber());
+            System.out.println("com.brock.bankingApp.Account Name: " + account.getAccountName());
+            System.out.println("com.brock.bankingApp.Account Number: " + account.getAccountNumber());
             System.out.println("Balance: $" + account.getBalance());
         }
     }
 
     private Human findCustomerById(UUID customerId) {
-        // Assuming `customers` is a List<Human>
+        // Assuming `customers` is a List<com.brock.bankingApp.Human>
         for (Human customer : this.customers) {
             if (customer.getId().equals(customerId)) {
                 return customer;
@@ -94,7 +96,7 @@ public class Bank {
                 }
             }
         }
-        System.out.println("Account of number " + accountNumber + " could not be found.");
+        System.out.println("com.brock.bankingApp.Account of number " + accountNumber + " could not be found.");
         return null;
     }
 
@@ -115,7 +117,7 @@ public class Bank {
         Account fromAccount = null;
         Account toAccount = null;
 
-        // Assuming a method findAccountByNumber(String accountNumber) that returns an Account object
+        // Assuming a method findAccountByNumber(String accountNumber) that returns an com.brock.bankingApp.Account object
         fromAccount = findAccountByNumber(fromAccountNumber);
         toAccount = findAccountByNumber(toAccountNumber);
 
@@ -139,7 +141,7 @@ public class Bank {
             Account fromAccount = null;
             Account toAccount = null;
 
-            // Assuming a method findAccountById(UUID id) that returns an Account object
+            // Assuming a method findAccountById(UUID id) that returns an com.brock.bankingApp.Account object
             fromAccount = findAccountById(fromAccountId);
             toAccount = findAccountById(toAccountId);
 
@@ -192,12 +194,12 @@ public class Bank {
         Account account = AD.getAccountById(accountId);
 
         if (account != null) {
-            System.out.println("Account Name: " + account.getAccountName());
-            System.out.println("Account Number: " + account.getAccountNumber());
-            System.out.println("Account Type: " + account.getType());
+            System.out.println("com.brock.bankingApp.Account Name: " + account.getAccountName());
+            System.out.println("com.brock.bankingApp.Account Number: " + account.getAccountNumber());
+            System.out.println("com.brock.bankingApp.Account Type: " + account.getType());
             System.out.println("Balance: $" + account.getBalance());
         } else {
-            System.out.println("Account not found.");
+            System.out.println("com.brock.bankingApp.Account not found.");
         }
     }
 }

@@ -1,5 +1,12 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+package com.brock.bankingApp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
 
@@ -17,7 +24,7 @@ public class Main {
         bank.displayAccountDetails(brock.getPersonalAccounts().get(0).getId());
 
 
-//        HumanDAO hD = new HumanDAO();
+//        com.brock.bankingApp.HumanDAO hD = new com.brock.bankingApp.HumanDAO();
 //        hD.deleteAllHumans();
 
     }
