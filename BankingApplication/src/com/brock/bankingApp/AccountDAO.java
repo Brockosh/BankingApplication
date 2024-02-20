@@ -1,8 +1,11 @@
 package com.brock.bankingApp;
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.UUID;
 
+@Repository
 public class AccountDAO {
     private DatabaseConnector dbConnector = new DatabaseConnector();
 
@@ -44,6 +47,31 @@ public class AccountDAO {
         return null;
     }
 
+    public void updateAccount(UUID accountId, Account updatedAccount) {
+        String sql = "UPDATE accounts SET account_name = ?, account_number = ?, type = ?, balance = ? WHERE id = ?";
+
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, updatedAccount.getAccountName());
+            pstmt.setInt(2, updatedAccount.getAccountNumber());
+            pstmt.setString(3, updatedAccount.getType().toString());
+            pstmt.setDouble(4, updatedAccount.getBalance());
+
+            pstmt.setObject(5, accountId);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                System.out.println("Account updated successfully.");
+            } else {
+                System.out.println("Account not found.");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void deleteAccount(UUID accountId) {
         String sql = "DELETE FROM accounts WHERE id = ?";
         try (Connection conn = dbConnector.connect();
@@ -59,12 +87,4 @@ public class AccountDAO {
             System.out.println(e.getMessage());
         }
     }
-
-
-
-
-
-
-
-
 }

@@ -1,31 +1,37 @@
 package com.brock.bankingApp;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Random;
+import java.util.UUID;
+
 @SpringBootApplication
 public class Main {
+
     public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
 
-        DatabaseConnector dbConn = new DatabaseConnector();
+    @Bean
+    public CommandLineRunner demoData(AccountService accountService, UserService userService) {
+        return args -> {
 
-        dbConn.connect();
+            UUID idToUse = UUID.randomUUID();
+            System.out.println(idToUse);
 
+            Human brock = new Human(idToUse, "Brock O'Shea");
+            userService.addUser(brock);
 
+            Account brockAccount = new Account("Brock's Banking", 123456, Account.AccountType.SAVINGS, 870.00);
+            accountService.addAccount(brockAccount, brock.getId());
 
-        Bank bank = new Bank();
-
-        Human brock = new Human("Brock O'Shea");
-        bank.addCustomer(brock);
-        bank.createAccountForCustomer(brock.getId(), "Brock's Banking", Account.AccountType.SAVINGS, 870);
-        bank.displayAccountDetails(brock.getPersonalAccounts().get(0).getId());
-
-
-//        com.brock.bankingApp.HumanDAO hD = new com.brock.bankingApp.HumanDAO();
-//        hD.deleteAllHumans();
-
+            System.out.println("Pre-populated some demo data.");
+        };
     }
 }

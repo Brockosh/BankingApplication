@@ -16,6 +16,13 @@ public class Human {
         this.fullName = fullName;
         this.personalAccounts = new ArrayList<>();
     }
+    public Human(UUID id, String fullName)
+    {
+        this.id = id;
+        this.fullName = fullName;
+        this.personalAccounts = new ArrayList<>();
+    }
+
     public void addAccount(Account newAccount) {
 
         personalAccounts.add(newAccount);
