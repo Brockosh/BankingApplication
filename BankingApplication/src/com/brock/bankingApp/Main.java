@@ -32,6 +32,10 @@ public class Main {
             accountService.addAccount(brockAccount, brock.getId());
 
             System.out.println("Pre-populated some demo data.");
+
+            //HumanDAO HD = new HumanDAO();
+            //HD.deleteAllHumans();
+
         };
     }
 }
