@@ -22,16 +22,23 @@ public class Main {
     public CommandLineRunner demoData(AccountService accountService, UserService userService) {
         return args -> {
 
-            UUID idToUse = UUID.randomUUID();
-            System.out.println(idToUse);
 
-            Human brock = new Human(idToUse, "Brock O'Shea");
-            userService.addUser(brock);
 
-            Account brockAccount = new Account("Brock's Banking", 123456, Account.AccountType.SAVINGS, 870.00);
-            accountService.addAccount(brockAccount, brock.getId());
 
-            System.out.println("Pre-populated some demo data.");
+            Transaction newTransaction = TransactionGenerator.generateTransaction();
+
+            System.out.println(newTransaction.toString());
+
+         // UUID idToUse = UUID.randomUUID();
+         // System.out.println(idToUse);
+
+         // Human brock = new Human(idToUse, "Brock O'Shea");
+         // userService.addUser(brock);
+
+         // Account brockAccount = new Account("Brock's Banking", 123456, Account.AccountType.SAVINGS, 870.00);
+         // accountService.addAccount(brockAccount, brock.getId());
+
+         // System.out.println("Pre-populated some demo data.");
 
             //HumanDAO HD = new HumanDAO();
             //HD.deleteAllHumans();
