@@ -2,6 +2,7 @@ package com.brock.bankingApp;
 
 import java.util.Date;
 import java.util.UUID;
+import java.time.ZonedDateTime;
 
 public class Transaction {
 
@@ -9,7 +10,7 @@ public class Transaction {
     private TransactionUtils.TransferType type;
     private double amount;
     private UUID destinationAccount;
-    private float transactionTime;
+    private ZonedDateTime transactionTime;
     private TransactionUtils.Country transactionLocation;
     private TransactionUtils.DeviceType device;
     private TransactionUtils.PaymentMethod paymentMethod;
@@ -19,7 +20,7 @@ public class Transaction {
 
     // Constructor
     public Transaction(String accountNumber, TransactionUtils.TransferType type, double amount,
-                        UUID destinationAccount, float transactionTime, TransactionUtils.Country transactionLocation,
+                        UUID destinationAccount, ZonedDateTime transactionTime, TransactionUtils.Country transactionLocation,
                         TransactionUtils.DeviceType device, TransactionUtils.PaymentMethod paymentMethod,
                         boolean recentChangeInAccountDetails) {
         this.accountNumber = accountNumber;
@@ -50,7 +51,7 @@ public class Transaction {
         return destinationAccount;
     }
 
-    public float getTransactionTime() {
+    public ZonedDateTime getTransactionTime() {
         return transactionTime;
     }
 
@@ -66,6 +67,9 @@ public class Transaction {
         return paymentMethod;
     }
 
+
+
+
     public boolean isRecentChangeInAccountDetails() {
         return recentChangeInAccountDetails;
     }
@@ -79,6 +83,9 @@ public class Transaction {
         this.accountNumber = accountNumber;
     }
 
+    public void setTransactionTime(ZonedDateTime transactionTime) {
+        this.transactionTime = transactionTime;
+    }
     public void setType(TransactionUtils.TransferType type) {
         this.type = type;
     }
@@ -91,9 +98,6 @@ public class Transaction {
         this.destinationAccount = destinationAccount;
     }
 
-    public void setTransactionTime(float transactionTime) {
-        this.transactionTime = transactionTime;
-    }
 
     public void setTransactionLocation(TransactionUtils.Country transactionLocation) {
         this.transactionLocation = transactionLocation;

@@ -1,5 +1,6 @@
 package com.brock.bankingApp;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -8,20 +9,20 @@ public class TransactionGenerator {
 
     private static final Random random = new Random();
 
-    public static Transaction generateTransaction() {
-        String accountNumber = UUID.randomUUID().toString();
-        TransactionUtils.TransferType type = TransactionUtils.TransferType.values()[random.nextInt(TransactionUtils.TransferType.values().length)];
-        double amount = generateRandomAmount();
-        UUID destinationAccount = UUID.randomUUID();
-        float transactionTime = generateRandomTransactionTime();
-        TransactionUtils.Country transactionLocation = generateRandomCountry();
-        TransactionUtils.DeviceType device = generateRandomDevice();
-        TransactionUtils.PaymentMethod paymentMethod = generateRandomPaymentMethod();
-        boolean recentChangeInAccountDetails = random.nextInt(100) < 1;
-
-        return new Transaction(accountNumber, type, amount, destinationAccount, transactionTime,
-                transactionLocation, device, paymentMethod, recentChangeInAccountDetails);
-    }
+//    public static Transaction generateTransaction() {
+//        String accountNumber = UUID.randomUUID().toString();
+//        TransactionUtils.TransferType type = TransactionUtils.TransferType.values()[random.nextInt(TransactionUtils.TransferType.values().length)];
+//        double amount = generateRandomAmount();
+//        UUID destinationAccount = UUID.randomUUID();
+//        //ZonedDateTime transactionTime = generateRandomTransactionTime();
+//        TransactionUtils.Country transactionLocation = generateRandomCountry();
+//        TransactionUtils.DeviceType device = generateRandomDevice();
+//        TransactionUtils.PaymentMethod paymentMethod = generateRandomPaymentMethod();
+//        boolean recentChangeInAccountDetails = random.nextInt(100) < 1;
+//
+//       return new Transaction(accountNumber, type, amount, destinationAccount, transactionTime,
+//                transactionLocation, device, paymentMethod, recentChangeInAccountDetails);
+//    }
 
     private static double generateRandomAmount() {
         double chance = random.nextDouble();
@@ -38,16 +39,16 @@ public class TransactionGenerator {
         }
     }
 
-    private static float generateRandomTransactionTime() {
-        // Generate hours (0 to 23)
-        int hours = random.nextInt(24);
-
-        // Generate minutes (0 to 59)
-        int minutes = random.nextInt(60);
-
-        // Combine hours and minutes into a float format
-        return hours + (float) minutes / 100;
-    }
+//    private static float generateRandomTransactionTime() {
+//        // Generate hours (0 to 23)
+//        int hours = random.nextInt(24);
+//
+//        // Generate minutes (0 to 59)
+//        int minutes = random.nextInt(60);
+//
+//        // Combine hours and minutes into a float format
+//        return hours + (float) minutes / 100;
+//    }
 
     private static TransactionUtils.Country generateRandomCountry() {
         return random.nextInt(800) == 0 ? TransactionUtils.Country.values()[random.nextInt(TransactionUtils.Country.values().length)] : TransactionUtils.Country.AUSTRALIA;

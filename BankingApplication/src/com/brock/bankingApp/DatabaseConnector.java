@@ -1,8 +1,7 @@
 package com.brock.bankingApp;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.ZoneId;
 
 public class DatabaseConnector {
 
@@ -21,4 +20,21 @@ public class DatabaseConnector {
         }
         return conn;
     }
+
+    public ZoneId getTimeZone() {
+        String timezone = "UTC"; // Default timezone
+        String sql = "SHOW timezone";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                timezone = rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return ZoneId.of(timezone);
+    }
+
+
 }

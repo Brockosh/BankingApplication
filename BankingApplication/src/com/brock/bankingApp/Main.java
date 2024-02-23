@@ -25,9 +25,9 @@ public class Main {
 
 
 
-            Transaction newTransaction = TransactionGenerator.generateTransaction();
+           // Transaction newTransaction = TransactionGenerator.generateTransaction();
 
-            System.out.println(newTransaction.toString());
+            //System.out.println(newTransaction.toString());
 
          // UUID idToUse = UUID.randomUUID();
          // System.out.println(idToUse);

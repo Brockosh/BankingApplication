@@ -1,4 +1,6 @@
 package com.brock.bankingApp;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.Random;
 
 public class SuspiciousTransactionDetector {
@@ -48,9 +50,9 @@ public class SuspiciousTransactionDetector {
     }
 
     public static boolean checkTransactionTime(Transaction transaction) {
-        float transactionTime = transaction.getTransactionTime();
-        boolean isLateNight = transactionTime >= 0.00 && transactionTime <= 3.00 ||
-                transactionTime >= 23.00 && transactionTime <= 24.00;
+        ZonedDateTime transactionTime = transaction.getTransactionTime();
+        LocalTime localTime = transactionTime.toLocalTime();
+        boolean isLateNight = (localTime.isAfter(LocalTime.of(23, 0)) || localTime.isBefore(LocalTime.of(4, 0)));
 
         // Simulate the likelihood of being unusual for the user
         boolean isUnusualForUser = new Random().nextInt(100) < 5; // 5% chance
