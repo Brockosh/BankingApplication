@@ -24,16 +24,13 @@ public class Main {
 
 
 
+         UUID idToUse = UUID.randomUUID();
+         UUID secondIdToUse = UUID.randomUUID();
+         System.out.println(idToUse);
+         System.out.println(secondIdToUse);
 
-           // Transaction newTransaction = TransactionGenerator.generateTransaction();
-
-            //System.out.println(newTransaction.toString());
-
-         // UUID idToUse = UUID.randomUUID();
-         // System.out.println(idToUse);
-
-         // Human brock = new Human(idToUse, "Brock O'Shea");
-         // userService.addUser(brock);
+         Human brock = new Human(idToUse, "Brock O'Shea");
+         userService.addUser(brock);
 
          // Account brockAccount = new Account("Brock's Banking", 123456, Account.AccountType.SAVINGS, 870.00);
          // accountService.addAccount(brockAccount, brock.getId());

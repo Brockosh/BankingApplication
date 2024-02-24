@@ -18,7 +18,7 @@ public class TransactionDAO {
         try (Connection conn = dbConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setObject(1, UUID.randomUUID());
-            pstmt.setString(2, transaction.getAccountNumber()); // Ensure this is UUID
+            pstmt.setString(2, transaction.getAccountNumber());
             pstmt.setObject(3, transaction.getDestinationAccount());
             pstmt.setString(4, transaction.getType().toString());
             pstmt.setDouble(5, transaction.getAmount());
@@ -90,4 +90,23 @@ public class TransactionDAO {
             System.out.println(e.getMessage());
         }
     }
+
+    public int countTransactionsInLast24Hours(String accountNumber) {
+        String sql = "SELECT COUNT(*) FROM transactions WHERE sending_account_id = ? AND transaction_time > ?";
+        try (Connection conn = dbConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, accountNumber);
+            // Calculate the timestamp for 24 hours ago
+            Timestamp timestamp24HoursAgo = Timestamp.from(ZonedDateTime.now().minusHours(24).toInstant());
+            pstmt.setTimestamp(2, timestamp24HoursAgo);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
 }

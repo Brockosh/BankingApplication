@@ -1,28 +1,69 @@
 package com.brock.bankingApp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class TransactionGenerator {
 
     private static final Random random = new Random();
 
-//    public static Transaction generateTransaction() {
-//        String accountNumber = UUID.randomUUID().toString();
-//        TransactionUtils.TransferType type = TransactionUtils.TransferType.values()[random.nextInt(TransactionUtils.TransferType.values().length)];
-//        double amount = generateRandomAmount();
-//        UUID destinationAccount = UUID.randomUUID();
-//        //ZonedDateTime transactionTime = generateRandomTransactionTime();
-//        TransactionUtils.Country transactionLocation = generateRandomCountry();
-//        TransactionUtils.DeviceType device = generateRandomDevice();
-//        TransactionUtils.PaymentMethod paymentMethod = generateRandomPaymentMethod();
-//        boolean recentChangeInAccountDetails = random.nextInt(100) < 1;
-//
-//       return new Transaction(accountNumber, type, amount, destinationAccount, transactionTime,
-//                transactionLocation, device, paymentMethod, recentChangeInAccountDetails);
-//    }
+    public static void main(String[] args) {
+        try {
+            List<TransactionAnalysisData> analysisDataList = generateLabeledTransactions(50000);
+            saveTransactionsToJson(analysisDataList, "transactions_training.json");
+
+            List<TransactionAnalysisData> testingDataList = generateLabeledTransactions(15000);
+            saveTransactionsToJson(testingDataList, "transactions_testing.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void saveTransactionsToJson(List<TransactionAnalysisData> analysisDataList, String filename) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.writeValue(new File(filename), analysisDataList);
+    }
+
+
+    public static Transaction generateTransaction() {
+        String accountNumber = UUID.randomUUID().toString();
+        TransactionUtils.TransferType type = TransactionUtils.TransferType.values()[random.nextInt(TransactionUtils.TransferType.values().length)];
+        double amount = generateRandomAmount();
+        UUID destinationAccount = UUID.randomUUID();
+        ZonedDateTime transactionTime = generateRandomTransactionTime();
+        TransactionUtils.Country transactionLocation = generateRandomCountry();
+        TransactionUtils.DeviceType device = generateRandomDevice();
+        TransactionUtils.PaymentMethod paymentMethod = generateRandomPaymentMethod();
+        boolean recentChangeInAccountDetails = random.nextInt(100) < 1;
+
+        return new Transaction(accountNumber, type, amount, destinationAccount, transactionTime,
+                transactionLocation, device, paymentMethod, recentChangeInAccountDetails);
+    }
+
+    private static List<TransactionAnalysisData> generateLabeledTransactions(int count) {
+        List<TransactionAnalysisData> analysisDataList = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            Transaction transaction = TransactionGenerator.generateTransaction();
+            int recentTransactionsCount = TransactionGenerator.generateRecentTransactionCount();
+
+            // Determine if the transaction is suspicious
+            boolean isSuspicious = SuspiciousTransactionDetector.isTransactionSuspicious(transaction, recentTransactionsCount);
+            int label = isSuspicious ? 1 : 0;
+
+            TransactionAnalysisData analysisData = new TransactionAnalysisData(transaction, recentTransactionsCount, label);
+            analysisDataList.add(analysisData);
+        }
+
+        return analysisDataList;
+    }
 
     private static double generateRandomAmount() {
         double chance = random.nextDouble();
@@ -39,16 +80,29 @@ public class TransactionGenerator {
         }
     }
 
-//    private static float generateRandomTransactionTime() {
-//        // Generate hours (0 to 23)
-//        int hours = random.nextInt(24);
-//
-//        // Generate minutes (0 to 59)
-//        int minutes = random.nextInt(60);
-//
-//        // Combine hours and minutes into a float format
-//        return hours + (float) minutes / 100;
-//    }
+    public static ZonedDateTime generateRandomTransactionTime() {
+        ZoneId sydneyZone = ZoneId.of("Australia/Sydney");
+        ZonedDateTime now = ZonedDateTime.now(sydneyZone);
+
+        int hour;
+        if (random.nextFloat() < 0.9) {
+            // 90% chance to generate a time between 5 AM and 11 PM
+            hour = 5 + random.nextInt(18);
+        } else {
+            // 10% chance to generate a time between 11 PM and 5 AM
+            // This will generate an hour between 0 and 4 or between 23 and 23
+            if (random.nextBoolean()) {
+                hour = random.nextInt(5);
+            } else {
+                hour = 23;
+            }
+        }
+
+        // Generate minutes (0 to 59)
+        int minutes = random.nextInt(60);
+
+        return now.withHour(hour).withMinute(minutes).withSecond(0).withNano(0);
+    }
 
     private static TransactionUtils.Country generateRandomCountry() {
         return random.nextInt(800) == 0 ? TransactionUtils.Country.values()[random.nextInt(TransactionUtils.Country.values().length)] : TransactionUtils.Country.AUSTRALIA;
@@ -75,6 +129,11 @@ public class TransactionGenerator {
             TransactionUtils.PaymentMethod[] others = {TransactionUtils.PaymentMethod.AMAZON_PAY, TransactionUtils.PaymentMethod.WIRE_TRANSFER, TransactionUtils.PaymentMethod.CASH_APP, TransactionUtils.PaymentMethod.VENMO, TransactionUtils.PaymentMethod.GIFT_CARD};
             return others[random.nextInt(others.length)];
         }
+    }
+
+    public static int generateRecentTransactionCount() {
+        // Simulate a 10% chance that there are more than 3 transactions in the last 24 hours
+        return random.nextInt(10) < 1 ? 4 + random.nextInt(5) : random.nextInt(4);
     }
 
 

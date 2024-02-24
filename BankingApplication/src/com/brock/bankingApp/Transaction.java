@@ -1,5 +1,6 @@
 package com.brock.bankingApp;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 import java.time.ZonedDateTime;
@@ -15,6 +16,7 @@ public class Transaction {
     private TransactionUtils.DeviceType device;
     private TransactionUtils.PaymentMethod paymentMethod;
     boolean recentChangeInAccountDetails;
+    private boolean highFrequencyLast24Hours;
 
     private boolean isSuspicious;
 
@@ -67,7 +69,7 @@ public class Transaction {
         return paymentMethod;
     }
 
-
+    public boolean isHighFrequencyLast24Hours() { return highFrequencyLast24Hours; }
 
 
     public boolean isRecentChangeInAccountDetails() {
@@ -120,13 +122,16 @@ public class Transaction {
     }
 
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM uuuu HH:mm:ss z");
+        String formattedTime = transactionTime.format(formatter);
+
         return "Transaction Details:\n" +
                 "-------------------\n" +
                 "Account Number: " + accountNumber + "\n" +
                 "Type: " + type + "\n" +
                 "Amount: $" + String.format("%.2f", amount) + "\n" +
                 "Destination Account: " + destinationAccount + "\n" +
-                "Transaction Time: " + String.format("%.2f", transactionTime) + "\n" +
+                "Transaction Time: " + formattedTime + "\n" +
                 "Transaction Location: " + transactionLocation + "\n" +
                 "Device: " + device + "\n" +
                 "Payment Method: " + paymentMethod + "\n" +

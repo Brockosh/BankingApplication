@@ -1,8 +1,11 @@
 package com.brock.bankingApp;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.*;
 import java.time.ZoneId;
 
+@Component
 public class DatabaseConnector {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/BankingApplication";
