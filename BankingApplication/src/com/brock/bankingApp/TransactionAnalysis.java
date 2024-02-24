@@ -16,7 +16,7 @@ public class TransactionAnalysis {
         List<TransactionAnalysisData> analysisDataList = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            Transaction transaction = TransactionGenerator.generateTransaction();
+            TransactionData transaction = TransactionGenerator.generateTransactionData();
             int recentTransactionsCount = TransactionGenerator.generateRecentTransactionCount();
 
             // Determine if the transaction is suspicious
@@ -47,7 +47,7 @@ public class TransactionAnalysis {
         System.out.println("Normal Transactions: " + (analysisDataList.size() - suspiciousCount));
     }
 
-    private static void logTransactionDetails(Transaction transaction, int recentTransactionsCount) {
+    private static void logTransactionDetails(TransactionData transaction, int recentTransactionsCount) {
         System.out.println(transaction);
         if (transaction.isSuspicious()) {
             System.out.println("Reasons for suspicion:");

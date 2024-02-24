@@ -16,18 +16,18 @@ public class TransactionService {
         this.transactionDAO = transactionDAO;
     }
 
-    public boolean attemptTransaction(Transaction transaction) {
-        int recentTransactionsCount = transactionDAO.countTransactionsInLast24Hours(transaction.getAccountNumber());
-        boolean isSuspicious = SuspiciousTransactionDetector.isTransactionSuspicious(transaction, recentTransactionsCount);
-        transaction.setSuspicious(isSuspicious);
-
-        if (!isSuspicious) {
-            transactionDAO.addTransaction(transaction);
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    public boolean attemptTransaction(Transaction transaction) {
+//        int recentTransactionsCount = transactionDAO.countTransactionsInLast24Hours(transaction.getAccountNumber());
+//        boolean isSuspicious = SuspiciousTransactionDetector.isTransactionSuspicious(transaction, recentTransactionsCount);
+//        transaction.setSuspicious(isSuspicious);
+//
+//        if (!isSuspicious) {
+//            transactionDAO.addTransaction(transaction);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
 //    private TransactionAnalysisData prepareAnalysisData(Transaction transaction, int recentTransactionsCount) {
 //        return new TransactionAnalysisData(transaction, recentTransactionsCount);

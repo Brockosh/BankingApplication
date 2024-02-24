@@ -15,17 +15,17 @@ public class TransactionGenerator {
 
     public static void main(String[] args) {
         try {
-            List<TransactionAnalysisData> analysisDataList = generateLabeledTransactions(50000);
-            saveTransactionsToJson(analysisDataList, "transactions_training.json");
+            List<TransactionData> trainingDataList = generateLabelledTransactions(50000);
+            saveTransactionsToJson(trainingDataList, "new_transactions_training.json");
 
-            List<TransactionAnalysisData> testingDataList = generateLabeledTransactions(15000);
-            saveTransactionsToJson(testingDataList, "transactions_testing.json");
-        } catch (IOException e) {
+            List<TransactionData> testingDataList = generateLabelledTransactions(15000);
+            saveTransactionsToJson(testingDataList, "new_transactions_testing.json");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void saveTransactionsToJson(List<TransactionAnalysisData> analysisDataList, String filename) throws IOException {
+    private static void saveTransactionsToJson(List<TransactionData> analysisDataList, String filename) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.writeValue(new File(filename), analysisDataList);
@@ -47,22 +47,59 @@ public class TransactionGenerator {
                 transactionLocation, device, paymentMethod, recentChangeInAccountDetails);
     }
 
-    private static List<TransactionAnalysisData> generateLabeledTransactions(int count) {
-        List<TransactionAnalysisData> analysisDataList = new ArrayList<>();
+    private static List<TransactionData> generateLabelledTransactions(int count) {
+        List<TransactionData> dataList = new ArrayList<>();
+        int suspiciousCount = 0;
+        int notSuspiciousCount = 0;
+        int targetCount = count / 2; // Target count for each type of transaction
 
-        for (int i = 0; i < count; i++) {
-            Transaction transaction = TransactionGenerator.generateTransaction();
-            int recentTransactionsCount = TransactionGenerator.generateRecentTransactionCount();
+        while (suspiciousCount < targetCount && notSuspiciousCount < targetCount) {
+            TransactionData transaction = generateTransactionData();
 
             // Determine if the transaction is suspicious
-            boolean isSuspicious = SuspiciousTransactionDetector.isTransactionSuspicious(transaction, recentTransactionsCount);
-            int label = isSuspicious ? 1 : 0;
+            boolean isSuspicious = SuspiciousTransactionDetector.isTransactionSuspicious(transaction, generateRecentTransactionCount());
 
-            TransactionAnalysisData analysisData = new TransactionAnalysisData(transaction, recentTransactionsCount, label);
-            analysisDataList.add(analysisData);
+            // Set the suspicious flag of the transaction
+            transaction.setSuspicious(isSuspicious);
+
+            // Add the transaction to the list and update the counts
+            if (isSuspicious && suspiciousCount < targetCount) {
+                dataList.add(transaction);
+                suspiciousCount++;
+            } else if (!isSuspicious && notSuspiciousCount < targetCount) {
+                dataList.add(transaction);
+                notSuspiciousCount++;
+            }
         }
 
-        return analysisDataList;
+        // If the counts are still unequal, add transactions until they match
+        while (suspiciousCount < targetCount) {
+            TransactionData transaction = generateTransactionData();
+            transaction.setSuspicious(true); // Set the suspicious flag
+            dataList.add(transaction);
+            suspiciousCount++;
+        }
+
+        while (notSuspiciousCount < targetCount) {
+            TransactionData transaction = generateTransactionData();
+            transaction.setSuspicious(false); // Set the non-suspicious flag
+            dataList.add(transaction);
+            notSuspiciousCount++;
+        }
+
+        return dataList;
+    }
+
+    public static TransactionData generateTransactionData() {
+        TransactionUtils.TransferType type = TransactionUtils.TransferType.values()[random.nextInt(TransactionUtils.TransferType.values().length)];
+        double amount = generateRandomAmount();
+        ZonedDateTime transactionTime = generateRandomTransactionTime();
+        TransactionUtils.Country transactionLocation = generateRandomCountry();
+        TransactionUtils.DeviceType device = generateRandomDevice();
+        TransactionUtils.PaymentMethod paymentMethod = generateRandomPaymentMethod();
+        boolean recentChangeInAccountDetails = random.nextInt(100) < 1;
+
+        return new TransactionData(type, amount, transactionTime, transactionLocation, device, paymentMethod, recentChangeInAccountDetails, false);
     }
 
     private static double generateRandomAmount() {

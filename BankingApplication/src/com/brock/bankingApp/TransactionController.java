@@ -18,15 +18,15 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createTransaction(@RequestBody Transaction transaction) {
-        boolean isApproved = transactionService.attemptTransaction(transaction);
-        if (isApproved) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-    }
+//    @PostMapping
+//    public ResponseEntity<Void> createTransaction(@RequestBody Transaction transaction) {
+//        boolean isApproved = transactionService.attemptTransaction(transaction);
+//        if (isApproved) {
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+//        }
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Transaction> getTransactionById(@PathVariable UUID id) {

@@ -1,18 +1,18 @@
 package com.brock.bankingApp;
 
 public class TransactionAnalysisData {
-    private Transaction transaction;
+    private TransactionData transaction;
     private int recentTransactionsCount;
     private int label;
 
-    public TransactionAnalysisData(Transaction transaction, int recentTransactionsCount, int label) {
+    public TransactionAnalysisData(TransactionData transaction, int recentTransactionsCount, int label) {
         this.transaction = transaction;
         this.recentTransactionsCount = recentTransactionsCount;
         this.label = label;
     }
 
     // Getters
-    public Transaction getTransaction() {
+    public TransactionData getTransaction() {
         return transaction;
     }
 
