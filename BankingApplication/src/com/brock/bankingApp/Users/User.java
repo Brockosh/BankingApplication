@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Human {
+public class User {
 
     private UUID id;
     private String fullName;
     private List<Account> personalAccounts;
 
-    public Human(String fullName)
+    public User(String fullName)
     {
         this.id = UUID.randomUUID();
         this.fullName = fullName;
         this.personalAccounts = new ArrayList<>();
     }
-    public Human(UUID id, String fullName)
+    public User(UUID id, String fullName)
     {
         this.id = id;
         this.fullName = fullName;

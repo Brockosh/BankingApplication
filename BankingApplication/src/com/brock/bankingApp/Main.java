@@ -1,7 +1,7 @@
 package com.brock.bankingApp;
 
 import com.brock.bankingApp.Accounts.AccountService;
-import com.brock.bankingApp.Users.Human;
+import com.brock.bankingApp.Users.User;
 import com.brock.bankingApp.Users.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,14 +22,14 @@ public class Main {
         return args -> {
 
 
-
-         UUID idToUse = UUID.randomUUID();
-         UUID secondIdToUse = UUID.randomUUID();
-         System.out.println(idToUse);
-         System.out.println(secondIdToUse);
-
-         Human brock = new Human(idToUse, "Brock O'Shea");
-         userService.addUser(brock);
+//
+//         UUID idToUse = UUID.randomUUID();
+//         UUID secondIdToUse = UUID.randomUUID();
+//         System.out.println(idToUse);
+//         System.out.println(secondIdToUse);
+//
+//         User brock = new User(idToUse, "Brock O'Shea");
+//         userService.addUser(brock);
 
          // Account brockAccount = new Account("Brock's Banking", 123456, Account.AccountType.SAVINGS, 870.00);
          // accountService.addAccount(brockAccount, brock.getId());

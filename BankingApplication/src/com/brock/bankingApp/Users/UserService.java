@@ -1,45 +1,38 @@
 package com.brock.bankingApp.Users;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
 @Service
 public class UserService {
 
-    private final HumanDAO humanDAO;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(HumanDAO humanDAO) {
-        this.humanDAO = humanDAO;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public Human addUser(Human user) {
-        if (user.getId() == null){
-            user.setRandomID();
-        }
-        System.out.println("Generated ID: " + user.getId());
-        humanDAO.addHuman(user);
-        return user;
+    public User addUser(User user) {
+        return userRepository.save(user);
     }
 
-    public Human getUserById(UUID id) {
-        return humanDAO.getHumanById(id);
+    public User getUserById(UUID id) {
+        return userRepository.findById(id).orElse(null);
     }
 
-    public Human updateUser(UUID id, Human updatedUser) {
-        // Check if the user exists
-        Human existingUser = humanDAO.getHumanById(id);
-        if (existingUser != null) {
-            humanDAO.updateHuman(id, updatedUser.getFullName());
-            return humanDAO.getHumanById(id);
+    public User updateUser(UUID id, User updatedUser) {
+        if (userRepository.existsById(id)) {
+            return userRepository.save(updatedUser);
         }
         return null;
     }
 
     public boolean deleteUser(UUID id) {
-        Human existingUser = humanDAO.getHumanById(id);
-        if (existingUser != null) {
-            humanDAO.deleteHuman(id);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
             return true;
         }
         return false;

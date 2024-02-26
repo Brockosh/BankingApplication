@@ -7,16 +7,16 @@ import java.sql.*;
 import java.util.UUID;
 
 @Repository
-public class HumanDAO {
+public class UserDAO {
     private DatabaseConnector dbConnector = new DatabaseConnector();
 
 
-    public void addHuman(Human human) {
+    public void addUser(User user) {
         String sql = "INSERT INTO humans (id, full_name) VALUES (?, ?)";
         try (Connection conn = dbConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setObject(1, human.getId());
-            pstmt.setString(2, human.getFullName());
+            pstmt.setObject(1, user.getId());
+            pstmt.setString(2, user.getFullName());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -24,7 +24,7 @@ public class HumanDAO {
     }
 
 
-    public Human getHumanById(UUID id) {
+    public User getUserById(UUID id) {
         String sql = "SELECT id, full_name FROM humans WHERE id = ?";
         try (Connection conn = dbConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -33,7 +33,7 @@ public class HumanDAO {
             if (rs.next()) {
                 UUID userId = (UUID) rs.getObject("id");
                 String fullName = rs.getString("full_name");
-                return new Human(userId, fullName);
+                return new User(userId, fullName);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -55,7 +55,7 @@ public class HumanDAO {
     }
 
 
-    public void deleteHuman(UUID id) {
+    public void deleteUser(UUID id) {
         String sql = "DELETE FROM humans WHERE id = ?";
         try (Connection conn = dbConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -66,7 +66,7 @@ public class HumanDAO {
         }
     }
 
-    public void deleteAllHumans() {
+    public void deleteAllUsers() {
         String sql = "DELETE FROM humans";
         try (Connection conn = dbConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -76,8 +76,4 @@ public class HumanDAO {
             System.out.println(e.getMessage());
         }
     }
-
-
-
-
 }

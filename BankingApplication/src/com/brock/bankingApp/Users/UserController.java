@@ -19,14 +19,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Human> createUser(@RequestBody Human user) {
-        Human newUser = userService.addUser(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User newUser = userService.addUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Human> getUserById(@PathVariable UUID id) {
-        Human user = userService.getUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
+        User user = userService.getUserById(id);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
@@ -35,8 +35,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Human> updateUser(@PathVariable UUID id, @RequestBody Human updatedUser) {
-        Human user = userService.updateUser(id, updatedUser);
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
