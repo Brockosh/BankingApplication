@@ -1,7 +1,6 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Transactions;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.UUID;
 import java.time.ZonedDateTime;
 

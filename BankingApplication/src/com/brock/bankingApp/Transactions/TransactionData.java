@@ -1,7 +1,6 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Transactions;
 
 import java.time.ZonedDateTime;
-import java.util.Random;
 
 public class TransactionData {
     private TransactionUtils.TransferType type;

@@ -1,5 +1,6 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Accounts;
 
+import com.brock.bankingApp.DatabaseConnector;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.UUID;
@@ -78,9 +79,9 @@ public class AccountDAO {
             pstmt.setObject(1, accountId);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
-                System.out.println("com.brock.bankingApp.Account deleted successfully.");
+                System.out.println("com.brock.bankingApp.Accounts.Account deleted successfully.");
             } else {
-                System.out.println("com.brock.bankingApp.Account not found.");
+                System.out.println("com.brock.bankingApp.Accounts.Account not found.");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

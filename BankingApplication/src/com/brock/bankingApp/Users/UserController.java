@@ -1,4 +1,4 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +47,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         if (userService.deleteUser(id)) {
+            System.out.println("User deleted");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
+            System.out.println("User not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

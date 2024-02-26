@@ -1,4 +1,4 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -14,6 +14,10 @@ public class UserService {
     }
 
     public Human addUser(Human user) {
+        if (user.getId() == null){
+            user.setRandomID();
+        }
+        System.out.println("Generated ID: " + user.getId());
         humanDAO.addHuman(user);
         return user;
     }

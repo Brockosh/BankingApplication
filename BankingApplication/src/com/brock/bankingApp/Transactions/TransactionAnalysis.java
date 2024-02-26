@@ -1,4 +1,4 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Transactions;
 
 import java.util.ArrayList;
 import java.util.List;

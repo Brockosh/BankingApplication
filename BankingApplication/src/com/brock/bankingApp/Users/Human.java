@@ -1,4 +1,6 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Users;
+
+import com.brock.bankingApp.Accounts.Account;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ public class Human {
     public UUID getId() {
         return id;
     }
+
+    public void setRandomID() { this.id = UUID.randomUUID(); }
     public String getFullName() {
         return fullName;
     }

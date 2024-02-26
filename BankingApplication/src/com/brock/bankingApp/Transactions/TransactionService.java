@@ -1,9 +1,8 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Transactions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service

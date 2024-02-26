@@ -1,4 +1,4 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Transactions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

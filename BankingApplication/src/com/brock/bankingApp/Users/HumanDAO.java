@@ -1,5 +1,6 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Users;
 
+import com.brock.bankingApp.DatabaseConnector;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -30,7 +31,9 @@ public class HumanDAO {
             pstmt.setObject(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Human(rs.getString("full_name"));
+                UUID userId = (UUID) rs.getObject("id");
+                String fullName = rs.getString("full_name");
+                return new Human(userId, fullName);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

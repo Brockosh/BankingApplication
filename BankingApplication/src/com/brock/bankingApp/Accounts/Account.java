@@ -1,4 +1,4 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Accounts;
 
 import java.util.UUID;
 

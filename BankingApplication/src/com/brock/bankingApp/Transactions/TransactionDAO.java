@@ -1,5 +1,6 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Transactions;
 
+import com.brock.bankingApp.DatabaseConnector;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.time.ZonedDateTime;
@@ -60,7 +61,9 @@ public class TransactionDAO {
     }
 
     public void updateTransaction(UUID transactionId, Transaction transaction) {
-        String sql = "UPDATE transactions SET sending_account_id = ?, receiving_account_id = ?, type = ?, amount = ?, transaction_time = ?, transaction_location = ?, device = ?, payment_method = ?, recent_change_in_account_details = ?, is_suspicious = ? WHERE transaction_id = ?";
+        String sql = "UPDATE transactions SET sending_account_id = ?, receiving_account_id = ?, type = ?, " +
+                "amount = ?, transaction_time = ?, transaction_location = ?, device = ?, payment_method = ?, " +
+                "recent_change_in_account_details = ?, is_suspicious = ? WHERE transaction_id = ?";
         try (Connection conn = dbConnector.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, transaction.getAccountNumber());

@@ -1,4 +1,4 @@
-package com.brock.bankingApp;
+package com.brock.bankingApp.Transactions;
 
 public class TransactionAnalysisData {
     private TransactionData transaction;
