@@ -55,7 +55,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.brock.bankingApp.Main</mainClass>
+                    <mainClass>bankingApp.Main</mainClass>
                 </configuration>
                 <executions>
                     <execution>
