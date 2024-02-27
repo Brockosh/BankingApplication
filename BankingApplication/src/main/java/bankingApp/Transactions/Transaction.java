@@ -1,56 +1,80 @@
 package bankingApp.Transactions;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
-import java.time.ZonedDateTime;
 
+@Entity
+@Table(name = "transactions")
 public class Transaction {
 
-    private String accountNumber;
-    private TransactionUtils.TransferType type;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "transaction_id", updatable = false, nullable = false)
+    @Type(type="pg-uuid")
+    private UUID id;
+
+    @Column(name = "sending_account_id")
+    private UUID sendingAccount;
+
+    @Column(name = "receiving_account_id")
+    private UUID receivingAccount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transfer_type")
+    private TransactionUtils.TransferType transferType;
+
     private double amount;
-    private UUID destinationAccount;
+
+    @Column(name = "transaction_time")
     private ZonedDateTime transactionTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_location")
     private TransactionUtils.Country transactionLocation;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "device_type")
     private TransactionUtils.DeviceType device;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method")
     private TransactionUtils.PaymentMethod paymentMethod;
-    boolean recentChangeInAccountDetails;
-    private boolean highFrequencyLast24Hours;
 
-    private boolean isSuspicious;
 
-    // Constructor
-    public Transaction(String accountNumber, TransactionUtils.TransferType type, double amount,
-                        UUID destinationAccount, ZonedDateTime transactionTime, TransactionUtils.Country transactionLocation,
-                        TransactionUtils.DeviceType device, TransactionUtils.PaymentMethod paymentMethod,
-                        boolean recentChangeInAccountDetails) {
-        this.accountNumber = accountNumber;
-        this.type = type;
+    public Transaction() {}
+
+    public Transaction(TransactionUtils.TransferType type, double amount, UUID sendingAccount,
+                       UUID receivingAccount, ZonedDateTime transactionTime,
+                       TransactionUtils.Country transactionLocation, TransactionUtils.DeviceType device,
+                       TransactionUtils.PaymentMethod paymentMethod) {
+        this.sendingAccount = sendingAccount;
+        this.receivingAccount = receivingAccount;
+        this.transferType = type;
         this.amount = amount;
-        this.destinationAccount = destinationAccount;
         this.transactionTime = transactionTime;
         this.transactionLocation = transactionLocation;
         this.device = device;
         this.paymentMethod = paymentMethod;
-        this.recentChangeInAccountDetails = recentChangeInAccountDetails;
     }
+
 
     // Getters
-    public String getAccountNumber() {
-        return accountNumber;
-    }
 
-    public TransactionUtils.TransferType getType() {
-        return type;
+    public TransactionUtils.TransferType getTransferType() {
+        return transferType;
     }
 
     public double getAmount() {
         return amount;
     }
 
-    public UUID getDestinationAccount() {
-        return destinationAccount;
-    }
+    public UUID getReceivingAccount() { return receivingAccount; }
 
     public ZonedDateTime getTransactionTime() {
         return transactionTime;
@@ -68,37 +92,27 @@ public class Transaction {
         return paymentMethod;
     }
 
-    public boolean isHighFrequencyLast24Hours() { return highFrequencyLast24Hours; }
+    public UUID getId() { return id; }
 
+    public void setId(UUID id) { this.id = id; }
 
-    public boolean isRecentChangeInAccountDetails() {
-        return recentChangeInAccountDetails;
-    }
-
-    public boolean isSuspicious() {
-        return isSuspicious;
-    }
 
     // Setters
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
 
     public void setTransactionTime(ZonedDateTime transactionTime) {
         this.transactionTime = transactionTime;
     }
-    public void setType(TransactionUtils.TransferType type) {
-        this.type = type;
+    public void setTransferType(TransactionUtils.TransferType transferType) {
+        this.transferType = transferType;
     }
 
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public void setDestinationAccount(UUID destinationAccount) {
-        this.destinationAccount = destinationAccount;
+    public void setReceivingAccount(UUID destinationAccount) {
+        this.receivingAccount = receivingAccount;
     }
-
 
     public void setTransactionLocation(TransactionUtils.Country transactionLocation) {
         this.transactionLocation = transactionLocation;
@@ -112,29 +126,21 @@ public class Transaction {
         this.paymentMethod = paymentMethod;
     }
 
-    public void setRecentChangeInAccountDetails(boolean recentChangeInAccountDetails) {
-        this.recentChangeInAccountDetails = recentChangeInAccountDetails;
-    }
 
-    public void setSuspicious(boolean isSuspicious) {
-        this.isSuspicious = isSuspicious;
-    }
-
+    @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM uuuu HH:mm:ss z");
         String formattedTime = transactionTime.format(formatter);
-
         return "Transaction Details:\n" +
                 "-------------------\n" +
-                "Account Number: " + accountNumber + "\n" +
-                "Type: " + type + "\n" +
+                "Sending Account: " + sendingAccount + "\n" + // Corrected from Account Number
+                "Receiving Account: " + receivingAccount + "\n" + // Corrected from Destination Account
+                "Type: " + transferType + "\n" +
                 "Amount: $" + String.format("%.2f", amount) + "\n" +
-                "Destination Account: " + destinationAccount + "\n" +
                 "Transaction Time: " + formattedTime + "\n" +
                 "Transaction Location: " + transactionLocation + "\n" +
                 "Device: " + device + "\n" +
-                "Payment Method: " + paymentMethod + "\n" +
-                "Recent Change in Account Details: " + (recentChangeInAccountDetails ? "Yes" : "No") + "\n";
+                "Payment Method: " + paymentMethod + "\n";
     }
 
 }

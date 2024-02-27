@@ -19,7 +19,7 @@ public class Account {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
-    @Type(type="org.hibernate.type.UUIDCharType")
+    @Type(type="pg-uuid")
     private UUID id;
 
     @Column(name = "account_name", nullable = false)

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,32 +19,24 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-//    @PostMapping
-//    public ResponseEntity<Void> createTransaction(@RequestBody Transaction transaction) {
-//        boolean isApproved = transactionService.attemptTransaction(transaction);
-//        if (isApproved) {
-//            return new ResponseEntity<>(HttpStatus.CREATED);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-//        }
-//    }
+    @PostMapping
+    public ResponseEntity<Transaction> createTransaction(@RequestBody Transaction transaction) {
+        Transaction savedTransaction = transactionService.saveTransaction(transaction);
+        return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Transaction> getTransactionById(@PathVariable UUID id) {
-        Transaction transaction = transactionService.getTransactionById(id);
-        if (transaction != null) {
-            return new ResponseEntity<>(transaction, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Optional<Transaction> transaction = transactionService.getTransactionById(id);
+        return transaction.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateTransaction(@PathVariable UUID id, @RequestBody Transaction updatedTransaction) {
-        Transaction existingTransaction = transactionService.getTransactionById(id);
-        if (existingTransaction != null) {
-            transactionService.updateTransaction(id, updatedTransaction);
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable UUID id, @RequestBody Transaction updatedTransaction) {
+        boolean isUpdated = transactionService.updateTransaction(id, updatedTransaction);
+        if (isUpdated) {
+            return new ResponseEntity<>(updatedTransaction, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -51,9 +44,8 @@ public class TransactionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable UUID id) {
-        Transaction existingTransaction = transactionService.getTransactionById(id);
-        if (existingTransaction != null) {
-            transactionService.deleteTransaction(id);
+        boolean isDeleted = transactionService.deleteTransaction(id);
+        if (isDeleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

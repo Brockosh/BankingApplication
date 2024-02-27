@@ -19,23 +19,6 @@ public class Main {
         return args -> {
 
 
-//
-//         UUID idToUse = UUID.randomUUID();
-//         UUID secondIdToUse = UUID.randomUUID();
-//         System.out.println(idToUse);
-//         System.out.println(secondIdToUse);
-//
-//         User brock = new User(idToUse, "Brock O'Shea");
-//         userService.addUser(brock);
-
-         // Account brockAccount = new Account("Brock's Banking", 123456, Account.AccountType.SAVINGS, 870.00);
-         // accountService.addAccount(brockAccount, brock.getId());
-
-         // System.out.println("Pre-populated some demo data.");
-
-            //HumanDAO HD = new HumanDAO();
-            //HD.deleteAllHumans();
-
         };
     }
 }
