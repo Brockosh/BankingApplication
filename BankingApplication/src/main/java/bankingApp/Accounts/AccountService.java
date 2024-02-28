@@ -5,6 +5,7 @@ import bankingApp.Users.UserRepository; // Assuming this is correctly placed in 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,11 +21,16 @@ public class AccountService {
         this.userRepository = userRepository;
     }
 
+
+    @Transactional
     public Optional<Account> createAccount(AccountCreationDTO accountCreationDTO) {
-        Optional<User> user = userRepository.findById(accountCreationDTO.getCustomerID());
+        Optional<User> user = userRepository.findById(accountCreationDTO.getUserId());
         return user.map(u -> {
             Account newAccount = accountCreationDTO.getAccount();
             newAccount.setUser(u);
+            if (newAccount.getAccountNumber() == null || accountRepository.existsByAccountNumber(newAccount.getAccountNumber())) {
+                newAccount.setAccountNumber(AccountNumberGenerator.generateUniqueAccountNumber(accountRepository));
+            }
             return accountRepository.save(newAccount);
         });
     }
@@ -35,8 +41,6 @@ public class AccountService {
 
     public Optional<Account> updateAccount(UUID id, Account accountDetails) {
         return accountRepository.findById(id).map(existingAccount -> {
-            // Copy properties from accountDetails to existingAccount as needed
-            // For example: existingAccount.setBalance(accountDetails.getBalance());
             return accountRepository.save(existingAccount);
         });
     }

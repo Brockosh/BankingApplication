@@ -3,9 +3,9 @@ package bankingApp.Accounts;
 import java.util.UUID;
 
 public class AccountCreationDTO {
-    private UUID customerId;
+    private UUID userId;
     private Account account;
 
-    public UUID getCustomerID() { return customerId; }
+    public UUID getUserId() { return userId; }
     public Account getAccount() { return account; }
 }

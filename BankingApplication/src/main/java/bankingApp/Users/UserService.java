@@ -3,6 +3,7 @@ package bankingApp.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
@@ -23,11 +24,12 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public User updateUser(UUID id, User updatedUser) {
-        if (userRepository.existsById(id)) {
-            return userRepository.save(updatedUser);
-        }
-        return null;
+        return userRepository.findById(id).map(existingUser -> {
+            existingUser.setFullName(updatedUser.getFullName());
+            return userRepository.save(existingUser);
+        }).orElse(null);
     }
 
     public boolean deleteUser(UUID id) {
