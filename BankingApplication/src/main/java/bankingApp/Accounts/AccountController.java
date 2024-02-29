@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -34,6 +35,13 @@ public class AccountController {
     @PutMapping("/{accountId}")
     public ResponseEntity<Account> updateAccount(@PathVariable UUID accountId, @RequestBody Account accountDetails) {
         return accountService.updateAccount(accountId, accountDetails)
+                .map(account -> new ResponseEntity<>(account, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PatchMapping("/{accountId}")
+    public ResponseEntity<Account> patchUpdateAccount(@PathVariable UUID accountId, @RequestBody Map<String, Object> updates) {
+        return accountService.patchUpdateAccount(accountId, updates)
                 .map(account -> new ResponseEntity<>(account, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

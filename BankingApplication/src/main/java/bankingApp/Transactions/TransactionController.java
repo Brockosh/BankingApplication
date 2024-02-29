@@ -1,5 +1,6 @@
 package bankingApp.Transactions;
 
+import bankingApp.Exceptions.InsufficientFundsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,16 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody Transaction transaction) {
-        Transaction savedTransaction = transactionService.saveTransaction(transaction);
-        return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
+    public ResponseEntity<?> createTransaction(@RequestBody Transaction transaction) {
+        try {
+            Transaction savedTransaction = transactionService.createAndProcessTransaction(transaction);
+            return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
+        } catch (InsufficientFundsException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred processing the transaction.");
+        }
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Transaction> getTransactionById(@PathVariable UUID id) {
         Optional<Transaction> transaction = transactionService.getTransactionById(id);

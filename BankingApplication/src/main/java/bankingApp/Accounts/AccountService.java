@@ -1,11 +1,12 @@
 package bankingApp.Accounts;
 
 import bankingApp.Users.User;
-import bankingApp.Users.UserRepository; // Assuming this is correctly placed in your project structure
+import bankingApp.Users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,8 +42,41 @@ public class AccountService {
 
     public Optional<Account> updateAccount(UUID id, Account accountDetails) {
         return accountRepository.findById(id).map(existingAccount -> {
+            existingAccount.setAccountName(accountDetails.getAccountName());
+            existingAccount.setAccountNumber(accountDetails.getAccountNumber());
+            existingAccount.setType(accountDetails.getType());
+            existingAccount.setBalance(accountDetails.getBalance());
             return accountRepository.save(existingAccount);
         });
+    }
+
+    @Transactional
+    public Optional<Account> patchUpdateAccount(UUID id, Map<String, Object> updates) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if (accountOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Account accountToUpdate = accountOptional.get();
+        updates.forEach((key, value) -> {
+            switch (key) {
+                case "accountName":
+                    accountToUpdate.setAccountName((String) value);
+                    break;
+                case "accountNumber":
+                    accountToUpdate.setAccountNumber((Integer) value);
+                    break;
+                case "type":
+                    accountToUpdate.setType(Account.AccountType.valueOf((String) value));
+                    break;
+                case "balance":
+                    accountToUpdate.setBalance((Double) value);
+                    break;
+            }
+        });
+
+        Account updatedAccount = accountRepository.save(accountToUpdate);
+        return Optional.of(updatedAccount);
     }
 
     public boolean deleteAccount(UUID id) {

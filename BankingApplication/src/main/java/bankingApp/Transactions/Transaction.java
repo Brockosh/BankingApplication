@@ -1,5 +1,6 @@
 package bankingApp.Transactions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -49,10 +50,16 @@ public class Transaction {
 
     public Transaction() {}
 
-    public Transaction(TransactionUtils.TransferType type, double amount, UUID sendingAccount,
-                       UUID receivingAccount, ZonedDateTime transactionTime,
-                       TransactionUtils.Country transactionLocation, TransactionUtils.DeviceType device,
-                       TransactionUtils.PaymentMethod paymentMethod) {
+    public Transaction(
+            @JsonProperty("type") TransactionUtils.TransferType type,
+            @JsonProperty("amount") double amount,
+            @JsonProperty("sendingAccount") UUID sendingAccount,
+            @JsonProperty("receivingAccount") UUID receivingAccount,
+            @JsonProperty("transactionTime") ZonedDateTime transactionTime,
+            @JsonProperty("transactionLocation") TransactionUtils.Country transactionLocation,
+            @JsonProperty("device") TransactionUtils.DeviceType device,
+            @JsonProperty("paymentMethod") TransactionUtils.PaymentMethod paymentMethod) {
+
         this.sendingAccount = sendingAccount;
         this.receivingAccount = receivingAccount;
         this.transferType = type;
@@ -73,6 +80,8 @@ public class Transaction {
     public double getAmount() {
         return amount;
     }
+
+    public UUID getSendingAccount() { return this.sendingAccount; }
 
     public UUID getReceivingAccount() { return receivingAccount; }
 
@@ -109,6 +118,8 @@ public class Transaction {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    public void setSendingAccount(UUID sendingAccount) { this.sendingAccount = sendingAccount; }
 
     public void setReceivingAccount(UUID destinationAccount) {
         this.receivingAccount = receivingAccount;

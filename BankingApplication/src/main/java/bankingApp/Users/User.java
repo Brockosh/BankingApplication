@@ -31,6 +31,7 @@ public class User {
         this.personalAccounts = new ArrayList<>();
     }
 
+
     public User(String fullName) {
         this();
         this.fullName = fullName;

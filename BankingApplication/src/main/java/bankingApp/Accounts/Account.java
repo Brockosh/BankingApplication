@@ -1,6 +1,9 @@
 package bankingApp.Accounts;
 
+import bankingApp.Exceptions.InsufficientFundsException;
 import bankingApp.Users.User;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -42,20 +45,47 @@ public class Account {
     public Account() {
     }
 
-    public Account(String aName, Integer aNum, AccountType type, double bal) {
-        this.accountName = aName;
-        this.accountNumber = aNum;
+//    @JsonCreator
+//    public Account(
+//            @JsonProperty("accountName") String accountName,
+//            @JsonProperty("accountNumber") Integer accountNumber,
+//            @JsonProperty("type") AccountType type,
+//            @JsonProperty("balance") double balance) {
+//        this.accountName = accountName;
+//        this.accountNumber = accountNumber;
+//        this.type = type;
+//        this.balance = balance;
+//    }
+//
+//    public Account(
+//            @JsonProperty("id") UUID id,
+//            @JsonProperty("accountName") String accountName,
+//            @JsonProperty("accountNumber") Integer accountNumber,
+//            @JsonProperty("type") AccountType type,
+//            @JsonProperty("balance") double balance) {
+//        this.id = id;
+//        this.accountName = accountName;
+//        this.accountNumber = accountNumber;
+//        this.type = type;
+//        this.balance = balance;
+//    }
+
+    public Account(String accountName, Integer accountNumber, AccountType type, double balance) {
+        this.accountName = accountName;
+        this.accountNumber = accountNumber;
         this.type = type;
-        this.balance = bal;
+        this.balance = balance;
     }
 
-    public Account(UUID id, String aName, Integer aNum, AccountType type, double bal) {
+
+    public Account(UUID id, String accountName, Integer accountNumber, AccountType type, double balance) {
         this.id = id;
-        this.accountName = aName;
-        this.accountNumber = aNum;
+        this.accountName = accountName;
+        this.accountNumber = accountNumber;
         this.type = type;
-        this.balance = bal;
+        this.balance = balance;
     }
+
 
     // Getters
     public UUID getId() {
@@ -104,20 +134,28 @@ public class Account {
 
     // Business methods
     public void deposit(double amount) {
-        if (amount > 0) {
-            this.balance += amount;
-        } else {
-            System.out.println("Cannot deposit negative amount.");
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive.");
         }
+        this.balance += amount;
+        logTransaction("deposit", amount); // Assume this method logs the transaction
+    }
+
+    private void logTransaction(String deposit, double amount) {
+
+        System.out.println(amount + deposit);
     }
 
     public boolean withdraw(double amount) {
-        if (amount > 0 && this.balance >= amount) {
-            this.balance -= amount;
-            return true;
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
         }
-        System.out.println("Insufficient funds or negative amount.");
-        return false;
+        if (this.balance < amount) {
+            throw new InsufficientFundsException("Insufficient funds for withdrawal.");
+        }
+        this.balance -= amount;
+        logTransaction("withdraw", amount); // Logging the transaction
+        return true;
     }
 
     @Override
