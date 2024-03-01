@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,12 +38,6 @@ public class TransactionService {
             System.out.println("Error retrieving receiving account: " + e.getMessage());
             throw e;
         }
-
-
-
-       //Account receivingAccount = accountRepository.findById(transaction.getReceivingAccount()).orElseThrow();
-//        System.out.println("Found by ID" + receivingAccount.getId());
-        // Business logic to check balances
         if (sendingAccount.getBalance() >= transaction.getAmount()) {
             sendingAccount.setBalance(sendingAccount.getBalance() - transaction.getAmount());
             receivingAccount.setBalance(receivingAccount.getBalance() + transaction.getAmount());
@@ -57,6 +52,31 @@ public class TransactionService {
             throw new InsufficientFundsException("Account " + sendingAccount.getId() + " does not have sufficient funds.");
         }
     }
+
+    @Transactional
+    public Transaction deposit(Transaction transaction) {
+        // Assume transaction.setTransferType has been set to DEPOSIT before this call
+
+        System.out.println("Deposit amount" + transaction.getAmount());
+        Account account = accountRepository.findById(transaction.getReceivingAccount())
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        account.setBalance(account.getBalance() + transaction.getAmount());
+        accountRepository.save(account);
+        return transactionRepository.save(transaction);
+    }
+
+    @Transactional
+    public Transaction withdraw(Transaction transaction) throws InsufficientFundsException {
+        Account account = accountRepository.findById(transaction.getSendingAccount())
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        if (account.getBalance() < transaction.getAmount()) {
+            throw new InsufficientFundsException("Insufficient funds for withdrawal.");
+        }
+        account.setBalance(account.getBalance() - transaction.getAmount());
+        accountRepository.save(account);
+        return transactionRepository.save(transaction);
+    }
+
 
     public Optional<Transaction> getTransactionById(UUID id) {
         return transactionRepository.findById(id);
@@ -79,6 +99,7 @@ public class TransactionService {
             return true;
         }).orElse(false);
     }
+
 
     public boolean deleteTransaction(UUID id) {
         if (transactionRepository.existsById(id)) {

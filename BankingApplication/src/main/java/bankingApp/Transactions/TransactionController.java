@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,15 +21,46 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping
+    @PostMapping("/transfer")
     public ResponseEntity<?> createTransaction(@RequestBody Transaction transaction) {
         try {
+            transaction.setTransferType(TransactionUtils.TransferType.TRANSFER);
             Transaction savedTransaction = transactionService.createAndProcessTransaction(transaction);
             return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
         } catch (InsufficientFundsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred processing the transaction.");
+        }
+    }
+
+    @PostMapping("/deposit")
+    public ResponseEntity<?> deposit(@RequestBody Transaction transaction) {
+        try {
+            transaction.setTransferType(TransactionUtils.TransferType.DEPOSIT);
+            transaction.setSendingAccount(transaction.getReceivingAccount());
+            transaction.setTransactionTime(ZonedDateTime.now());
+
+            Transaction completedTransaction = transactionService.deposit(transaction);
+            return new ResponseEntity<>(completedTransaction, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during the deposit: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/withdraw")
+    public ResponseEntity<?> withdraw(@RequestBody Transaction transactionDetails) {
+        try {
+            transactionDetails.setTransferType(TransactionUtils.TransferType.WITHDRAWAL);
+            transactionDetails.setSendingAccount(transactionDetails.getReceivingAccount());
+            transactionDetails.setTransactionTime(ZonedDateTime.now());
+
+            Transaction transaction = transactionService.withdraw(transactionDetails);
+            return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+        } catch (InsufficientFundsException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during the withdrawal: " + e.getMessage());
         }
     }
     @GetMapping("/{id}")
