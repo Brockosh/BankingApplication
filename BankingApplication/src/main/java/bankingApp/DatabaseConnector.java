@@ -38,6 +38,4 @@ public class DatabaseConnector {
         }
         return ZoneId.of(timezone);
     }
-
-
 }
