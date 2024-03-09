@@ -45,38 +45,12 @@ public class Account {
     public Account() {
     }
 
-//    @JsonCreator
-//    public Account(
-//            @JsonProperty("accountName") String accountName,
-//            @JsonProperty("accountNumber") Integer accountNumber,
-//            @JsonProperty("type") AccountType type,
-//            @JsonProperty("balance") double balance) {
-//        this.accountName = accountName;
-//        this.accountNumber = accountNumber;
-//        this.type = type;
-//        this.balance = balance;
-//    }
-//
-//    public Account(
-//            @JsonProperty("id") UUID id,
-//            @JsonProperty("accountName") String accountName,
-//            @JsonProperty("accountNumber") Integer accountNumber,
-//            @JsonProperty("type") AccountType type,
-//            @JsonProperty("balance") double balance) {
-//        this.id = id;
-//        this.accountName = accountName;
-//        this.accountNumber = accountNumber;
-//        this.type = type;
-//        this.balance = balance;
-//    }
-
     public Account(String accountName, Integer accountNumber, AccountType type, double balance) {
         this.accountName = accountName;
         this.accountNumber = accountNumber;
         this.type = type;
         this.balance = balance;
     }
-
 
     public Account(UUID id, String accountName, Integer accountNumber, AccountType type, double balance) {
         this.id = id;
