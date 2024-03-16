@@ -19,8 +19,10 @@ function AuthOptionsPage() {
   };
 
   return (
-    <div>
+    <div className="auth-options-page-container">
+      <div className="page-header">
       <h1> Banking Application </h1>
+      </div>
         <div className="auth-options-container">
           <button onClick={handleLogin}>Login with OAuth2</button>
           <button onClick={handleCreateAccount}>Create Account</button>
