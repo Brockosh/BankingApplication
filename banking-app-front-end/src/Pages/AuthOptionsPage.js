@@ -1,5 +1,5 @@
 import React from 'react';
-import '../AuthOptionsPage.css';
+import '../CSSFiles/AuthOptionsPage.css';
 import { useNavigate } from 'react-router-dom';
 
 function AuthOptionsPage() {
@@ -21,7 +21,7 @@ function AuthOptionsPage() {
   return (
     <div className="auth-options-page-container">
       <div className="page-header">
-      <h1> Banking Application </h1>
+        <h1> Banking Application </h1>
       </div>
         <div className="auth-options-container">
           <button onClick={handleLogin}>Login with OAuth2</button>

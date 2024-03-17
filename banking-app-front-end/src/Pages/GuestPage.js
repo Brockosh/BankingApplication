@@ -1,50 +1,41 @@
-import React from 'react';
-import '../GuestPage.css';
-import AccountDetails from '../AccountDetails';
+import React, { useState } from 'react';
+import '../CSSFiles/GuestPage.css';
+import AccountDetails from '../JSFiles/AccountDetails';
+import Withdraw from '../JSFiles/Withdraw';
+import Deposit from '../JSFiles/Deposit';
+import Transfer from '../JSFiles/Transfer';
+import AccountOptions from '../JSFiles/AccountOptions';
+import ActionBoxContainer from '../JSFiles/ActionBoxContainer';
 
-function GuestPage() {
-  const handleSelectAccount = () => {
-    // Logic for selecting an account
-  };
-
-  const handleDeposit = () => {
-    // Logic for depositing
-  };
-
-  const handleWithdraw = () => {
-    // Logic for withdrawing
-  };
-
-  const handleTransfer = () => {
-    // Logic for transferring
-  };
-
-  // return (
-  //   <div className="guest-page-container">
-  //     <h1>Welcome, Guest!</h1>
-  //     <button onClick={handleSelectAccount}>Select Account</button>
-  //     <button onClick={handleDeposit}>Deposit</button>
-  //     <button onClick={handleWithdraw}>Withdraw</button>
-  //     <button onClick={handleTransfer}>Transfer</button>
-  //     <GuestOptions />
-  //   </div>
-  // );
-
-  return (
-    <div className="guest-page-layout">
-      <div className="guest-page-container">
-        <h1>Welcome, Guest!</h1>
-        <button onClick={handleSelectAccount}>Select Account</button>
-        <button onClick={handleDeposit}>Deposit</button>
-        <button onClick={handleWithdraw}>Withdraw</button>
-        <button onClick={handleTransfer}>Transfer</button>
+  function GuestPage() {
+    const [actionComponent, setActionComponent] = useState(null);
+  
+    const handleActionClick = (action) => {
+      switch (action) {
+        case 'deposit':
+          setActionComponent(<Deposit />);
+          break;
+        case 'withdraw':
+          setActionComponent(<Withdraw />);
+          break;
+        case 'transfer':
+          setActionComponent(<Transfer />);
+          break;
+        default:
+          setActionComponent(null);
+      }
+    };
+  
+    return (
+      <div className="content-and-action-container">
+        <AccountOptions onActionClick={handleActionClick} />
+        <AccountDetails />
+        <div className="action-component">
+          {actionComponent && <div className="action-component-container">{actionComponent}</div>}
+        </div>
       </div>
-      <AccountDetails />
-    </div>
-  );
-}
-
-export function GuestOptions() {
-    return <div>Select an option: Account, Deposit, Withdraw, Transfer</div>;
+    );
+  
   }
- export default GuestPage;
+  
+  export default GuestPage;

@@ -1,5 +1,5 @@
 import React from 'react';
-import './AccountDetails.css'; 
+import '../CSSFiles/AccountDetails.css'; 
 
 function AccountDetails() {
   // Example account details
