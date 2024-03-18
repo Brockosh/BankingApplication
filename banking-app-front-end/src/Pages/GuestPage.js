@@ -4,8 +4,10 @@ import AccountDetails from '../JSFiles/AccountDetails';
 import Withdraw from '../JSFiles/Withdraw';
 import Deposit from '../JSFiles/Deposit';
 import Transfer from '../JSFiles/Transfer';
+import SelectAccount from '../JSFiles/SelectAccount';
 import AccountOptions from '../JSFiles/AccountOptions';
 import ActionBoxContainer from '../JSFiles/ActionBoxContainer';
+import AccountManagement from '../JSFiles/AccountManagement';
 
   function GuestPage() {
     const [actionComponent, setActionComponent] = useState(null);
@@ -28,7 +30,7 @@ import ActionBoxContainer from '../JSFiles/ActionBoxContainer';
   
     return (
       <div className="content-and-action-container">
-        <AccountOptions onActionClick={handleActionClick} />
+        <AccountManagement onActionClick={handleActionClick} />
         <AccountDetails />
         <div className="action-component">
           {actionComponent && <div className="action-component-container">{actionComponent}</div>}
