@@ -17,9 +17,37 @@
     gap: 15px; 
   }
 
-  .deposit-content {
+  .deposit-content, .withdraw-content, .transfer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%; 
   }
+
+  .action-box-container input[type="number"], 
+.action-box-container input[type="text"] {
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  width: 80%;
+}
+
+.action-box-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-box-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Optional: Specific styles for messages */
+.action-box-container p {
+  color: #0f0; /* Green text for success messages */
+}
