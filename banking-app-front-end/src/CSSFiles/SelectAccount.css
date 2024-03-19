@@ -1,0 +1,40 @@
+.select-account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: auto;
+    margin-top: 50px;
+    width: 80%; 
+    max-width: 500px; 
+    height: auto; 
+    background-color: #333; 
+    color: #ddd; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    gap: 10px;
+  }
+  
+  .select-account-dropdown, .change-account-button {
+    width: 100%;
+    padding: 12px 0; 
+    border: none;
+    border-radius: 4px;
+    background-color: #555;
+    color: #ccc;
+    cursor: pointer;
+    font-size: clamp(16px, 2vw, 20px);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .select-account-dropdown:hover, .change-account-button:hover {
+    background-color: #777;
+    color: #fff;
+  }
+  
+  .selected-account-text {
+    margin: 0;
+    color: #ddd;
+    font-size: 20px;
+  }
