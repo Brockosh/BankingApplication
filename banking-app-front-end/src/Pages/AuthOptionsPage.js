@@ -1,17 +1,19 @@
 import React from 'react';
 import '../CSSFiles/AuthOptionsPage.css';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function AuthOptionsPage() {
 
     let navigate = useNavigate();
+    const { loginWithRedirect } = useAuth0(); 
 
   const handleLogin = () => {
-    window.location.href = 'YOUR_OAUTH2_LOGIN_URL';
+    loginWithRedirect();
   };
 
   const handleCreateAccount = () => {
-    window.location.href = 'YOUR_OAUTH2_SIGNUP_URL';
+    loginWithRedirect();
   };
 
   const handleGuestAccess = () => {
