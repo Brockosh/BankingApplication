@@ -7,7 +7,7 @@
     padding: auto;
     height: auto;
     max-height: 375px;
-    width: 60%;
+    /* width: 60%; */
     min-width: 200px;
     max-width: 350px;
     background-color: #333;
@@ -47,7 +47,6 @@
   background-color: #0056b3;
 }
 
-/* Optional: Specific styles for messages */
 .action-box-container p {
-  color: #0f0; /* Green text for success messages */
+  color: #0f0; 
 }

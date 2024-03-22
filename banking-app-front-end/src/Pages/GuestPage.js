@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import '../CSSFiles/GuestPage.css';
 import AccountDetails from '../JSFiles/AccountDetails';
 import Withdraw from '../JSFiles/Withdraw';
 import Deposit from '../JSFiles/Deposit';
 import Transfer from '../JSFiles/Transfer';
-import SelectAccount from '../JSFiles/SelectAccount';
-import AccountOptions from '../JSFiles/AccountOptions';
-import ActionBoxContainer from '../JSFiles/ActionBoxContainer';
 import AccountManagement from '../JSFiles/AccountManagement';
+import AnimatedBackground from '../JSFiles/AnimatedBackground';
 
   function GuestPage() {
     const [actionComponent, setActionComponent] = useState(null);
@@ -30,6 +27,7 @@ import AccountManagement from '../JSFiles/AccountManagement';
   
     return (
       <div className="content-and-action-container">
+        <AnimatedBackground/>{}
         <AccountManagement onActionClick={handleActionClick} />
         <AccountDetails />
         <div className="action-component">

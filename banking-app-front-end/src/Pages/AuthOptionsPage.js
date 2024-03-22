@@ -2,7 +2,7 @@ import React from 'react';
 import '../CSSFiles/AuthOptionsPage.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-
+import AnimatedBackground from '../JSFiles/AnimatedBackground';
 function AuthOptionsPage() {
 
     let navigate = useNavigate();
@@ -22,6 +22,7 @@ function AuthOptionsPage() {
 
   return (
     <div className="auth-options-page-container">
+      <AnimatedBackground/>{}
       <div className="page-header">
         <h1> Banking Application </h1>
       </div>

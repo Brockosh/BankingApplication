@@ -5,14 +5,15 @@
     justify-content: flex-start; 
     padding: 10px;
     margin: auto;
-    /* margin-top: 50px; */
+    margin-top: 50px;
+    margin-right: 100px;
     height: auto;
     max-height: 375px;
     width: 60%;
-    max-width: 350px;
+    max-width: 300px;
     background-color: #333;
     color: #ddd;
-    border-radius: 8px;
+    border-radius: 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     gap: 15px; 
   }
@@ -35,16 +36,16 @@
 
   .account-detail {
     display: grid;
-    grid-template-columns: 40% auto; /* Adjust the 40% as needed */
+    grid-template-columns: 40% auto; 
     padding: 0 20px;
     font-size: clamp(12px, 2vw, 16px);
-    gap: 10px; /* Optional: adds some space between the label and value */
+    gap: 10px; 
   }
   
   .account-detail span:first-child {
-    text-align: right; /* Right-aligns the text of the first span */
+    text-align: right; 
   }
   
   .account-detail span:last-child {
-    text-align: left; /* Ensures value is left-aligned */
+    text-align: left; 
   }
