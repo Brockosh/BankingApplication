@@ -2,6 +2,8 @@ import '../CSSFiles/index.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AuthOptionsPage from '../Pages/AuthOptionsPage';
 import GuestPage from '../Pages/GuestPage';
+import OrbitingCircles from './OrbitingCircle';
+import LandingPage from './LandingPage';
 
 function App() {
   return (
@@ -13,7 +15,8 @@ function App() {
               <Route path="/" element={<AuthOptionsPage />} />
               
               {/* Route for GuestPage */}
-              <Route path="/guest-options" element={<GuestPage />} />
+              {/* <Route path="/guest-options" element={<GuestPage />} /> */}
+              <Route path="/guest-options" element={<LandingPage />} />
               
               {/* Define other routes for AccountSelection, Deposit, Withdraw, Transfer */}
           </Routes>

@@ -1,0 +1,12 @@
+.orbiting-circle-manager {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.central-object {
+  position: absolute;
+}
