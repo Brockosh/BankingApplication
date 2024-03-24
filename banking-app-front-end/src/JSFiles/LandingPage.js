@@ -1,10 +1,11 @@
 import React from 'react';
 import OrbitingCircleManager from './OrbitingCircleManager';
 import CentralCircle from './CentralCircle';
+import AnimatedBackground from './AnimatedBackground';
 
 const LandingPage = () => {
     const centralContent = (
-        <CentralCircle text="VALUE" />
+        <CentralCircle text="ACCOUNT VALUE" />
       );
     
       const orbitingCircles = [
@@ -14,6 +15,7 @@ const LandingPage = () => {
     
       return (
         <div className="App">
+          <AnimatedBackground/>
           <OrbitingCircleManager centralContent={centralContent} orbitingCircles={orbitingCircles} radius={200} />
         </div>
       );
