@@ -2,12 +2,13 @@ import React from 'react';
 import Circle from './Circle';
 import '../CSSFiles/CentralCircle.css';
 
-const CentralCircle = ({ text }) => {
+const CentralCircle = ({ accountValue, amount }) => {
   return (
     <div className="container">
       <div className="glowing-swirl"></div>
       <Circle className="center">
-        <p>{text}</p>
+      <div className="value-text">{accountValue}</div>
+        <div className="amount-text">{amount}</div>
       </Circle>
     </div>
   )

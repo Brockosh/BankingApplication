@@ -9,22 +9,6 @@
   }
 
 
-  
-  /* .glowing-swirl {
-    content: '';
-    position: absolute;
-    top: -2%; 
-    left: -2%;
-    right: -2%;
-    bottom: -2%;
-    border-radius: 50%;
-    background: linear-gradient(270deg, #003973, #e5e5be, #a2d5c6, #0eaba9);
-    background-size: 100% 100%; 
-    z-index: -3;
-    transform: translate(50%, 50%); 
-    animation: rotateGradient 10s linear infinite; 
-  } */
-
   .glowing-swirl::before {
     content: '';
     position: absolute;
@@ -56,6 +40,7 @@
   }
   
   .center {
+    font-family: 'Nunito', sans-serif;
     text-align: center;
     color: rgb(255, 255, 255);
     width: 350px;
@@ -63,8 +48,19 @@
     background-color: transparent;
     border-radius: 50%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around; 
     align-items: center;
     position: relative;
-    z-index: 1;
+    z-index: 2;
+  }
+
+  .value-text {
+    font-size: .8em; 
+    margin-top: 5%; 
+  }
+  
+  .amount-text {
+    font-size: .8em; 
+    margin-bottom: 10%; 
   }

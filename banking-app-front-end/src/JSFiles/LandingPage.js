@@ -5,12 +5,14 @@ import AnimatedBackground from './AnimatedBackground';
 
 const LandingPage = () => {
     const centralContent = (
-        <CentralCircle text="ACCOUNT VALUE" />
+      <CentralCircle accountValue="ACCOUNT VALUE" amount="$1000" />
       );
     
       const orbitingCircles = [
         { text:"View Accounts", size: '140px', duration: '30s', radius: 200 },
-        { text:"Future Features",size: '140px', duration: '30s', delay: '-15s', radius: 200 },
+        { text:"Future",size: '140px', duration: '30s', delay: '-7.5s', radius: 200 },
+        { text:"Crypto",size: '140px', duration: '30s', delay: '-15s', radius: 200 },
+        { text:"Finance News",size: '140px', duration: '30s', delay: '-22.5s', radius: 200 }
       ];
     
       return (
