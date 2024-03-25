@@ -16,7 +16,7 @@ function App() {
               
               {/* Route for GuestPage */}
               {/* <Route path="/guest-options" element={<GuestPage />} /> */}
-              <Route path="/guest-options" element={<LandingPage />} />
+              <Route path="/guest-options" element={<GuestPage />} />
               
               {/* Define other routes for AccountSelection, Deposit, Withdraw, Transfer */}
           </Routes>
